@@ -5,12 +5,12 @@ import android.view.View;
 
 import androidx.annotation.Nullable;
 
-import com.torrydo.floatingbubbleview.CloseBubbleBehavior;
-import com.torrydo.floatingbubbleview.FloatingBubbleListener;
-import com.torrydo.floatingbubbleview.helper.ViewHelper;
-import com.torrydo.floatingbubbleview.service.expandable.BubbleBuilder;
-import com.torrydo.floatingbubbleview.service.expandable.ExpandableBubbleService;
-import com.torrydo.floatingbubbleview.service.expandable.ExpandedBubbleBuilder;
+import com.torrydo.floating.CloseBubbleBehavior;
+import com.torrydo.floating.FloatingBubbleListener;
+import com.torrydo.floating.helper.ViewHelper;
+import com.torrydo.floating.service.expandable.BubbleBuilder;
+import com.torrydo.floating.service.expandable.ExpandableBubbleService;
+import com.torrydo.floating.service.expandable.ExpandedBubbleBuilder;
 import com.torrydo.testfloatingbubble.R;
 
 public class MyServiceJava extends ExpandableBubbleService {
