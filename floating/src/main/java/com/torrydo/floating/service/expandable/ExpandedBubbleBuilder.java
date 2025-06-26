@@ -26,6 +26,11 @@ public class ExpandedBubbleBuilder {
 
     // config
     boolean isDraggable = true;
+    boolean isAnimateToEdgeEnabled = true;
+    boolean fillMaxWidth = false;
+    float dimAmount = 0f;
+    int startX = 0;
+    int startY = 0;
     DispatchKeyEventCallback onDispatchKeyEvent = null;
 
     public ExpandedBubbleBuilder(Context context) {
@@ -39,11 +44,20 @@ public class ExpandedBubbleBuilder {
                 WindowManager.LayoutParams.FLAG_WATCH_OUTSIDE_TOUCH |
                 WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS;
 
-        params.width = WindowManager.LayoutParams.WRAP_CONTENT;
+        if (fillMaxWidth) {
+            params.width = WindowManager.LayoutParams.MATCH_PARENT;
+        } else {
+            params.width = WindowManager.LayoutParams.WRAP_CONTENT;
+        }
         params.height = WindowManager.LayoutParams.WRAP_CONTENT;
 
-        params.x = 0;
-        params.y = 0;
+        params.x = startX;
+        params.y = startY;
+
+        if (dimAmount > 0) {
+            params.flags |= WindowManager.LayoutParams.FLAG_DIM_BEHIND;
+            params.dimAmount = dimAmount;
+        }
 
         params.gravity = Gravity.TOP | Gravity.LEFT;
         params.format = PixelFormat.TRANSLUCENT;
@@ -66,7 +80,7 @@ public class ExpandedBubbleBuilder {
     /**
      * set open and exit animation to expanded bubble
      */
-    public ExpandedBubbleBuilder expandedBubbleStyle(@StyleRes Integer style) {
+    public ExpandedBubbleBuilder style(@StyleRes Integer style) {
         expandedBubbleStyle = style;
         return this;
     }
@@ -76,6 +90,39 @@ public class ExpandedBubbleBuilder {
      */
     public ExpandedBubbleBuilder draggable(boolean draggable) {
         isDraggable = draggable;
+        return this;
+    }
+
+    /**
+     * set whether to animate to edge when released
+     */
+    public ExpandedBubbleBuilder enableAnimateToEdge(boolean enabled) {
+        isAnimateToEdgeEnabled = enabled;
+        return this;
+    }
+
+    /**
+     * set whether to fill max width
+     */
+    public ExpandedBubbleBuilder fillMaxWidth(boolean fillMaxWidth) {
+        this.fillMaxWidth = fillMaxWidth;
+        return this;
+    }
+
+    /**
+     * set dim amount for background dimming
+     */
+    public ExpandedBubbleBuilder dimAmount(float dimAmount) {
+        this.dimAmount = dimAmount;
+        return this;
+    }
+
+    /**
+     * set start location
+     */
+    public ExpandedBubbleBuilder startLocation(int x, int y) {
+        this.startX = x;
+        this.startY = y;
         return this;
     }
 
