@@ -66,7 +66,7 @@ public class NotificationHelper {
     public Notification defaultNotification() {
         return new NotificationCompat.Builder(context, channelId)
                 .setOngoing(true)
-                .setSmallIcon(R.drawable.ic_rounded_blue_diamond)
+                .setSmallIcon(com.torrydo.floating.R.drawable.ic_rounded_blue_diamond)
                 .setContentTitle("bubble is running")
                 .setPriority(NotificationCompat.PRIORITY_MIN)
                 .setCategory(Notification.CATEGORY_SERVICE)

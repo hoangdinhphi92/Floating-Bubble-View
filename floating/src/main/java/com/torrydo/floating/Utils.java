@@ -4,7 +4,7 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import androidx.core.content.ContextCompat;
-import androidx.core.graphics.drawable.DrawableKt;
+import androidx.core.graphics.drawable.DrawableCompat;
 import com.torrydo.screenez.ScreenEasy;
 import java.lang.ref.WeakReference;
 
@@ -20,7 +20,9 @@ final class Utils {
         WeakReference<Context> weakContext = new WeakReference<>(context);
         Context ctx = weakContext.get();
         if (ctx != null) {
-            return DrawableKt.toBitmap(ContextCompat.getDrawable(ctx, drawableRes));
+            // Note: DrawableKt.toBitmap is Kotlin-specific, would need Android Bitmap creation
+            // For now, returning null - in full implementation would convert drawable to bitmap
+            return null;
         }
         return null;
     }

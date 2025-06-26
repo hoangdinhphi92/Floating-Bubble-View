@@ -8,8 +8,8 @@ import android.view.LayoutInflater;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
 import com.torrydo.floating.AndroidVersions;
-import com.torrydo.floating.R;
 import com.torrydo.floating.Utils;
+import com.torrydo.floating.ViewUtils;
 
 class FloatingBottomBackground extends Bubble {
 
@@ -18,7 +18,7 @@ class FloatingBottomBackground extends Bubble {
     public FloatingBottomBackground(Context context) {
         super(context, new LinearLayout(context));
         
-        setRoot(LayoutInflater.from(context).inflate(R.layout.bottom_background, null));
+        setRoot(LayoutInflater.from(context).inflate(com.torrydo.floating.R.layout.bottom_background, null));
         setupLayoutParams();
     }
 
