@@ -2,6 +2,7 @@ package com.torrydo.floating.service.expandable;
 
 import android.content.Context;
 import android.content.res.Configuration;
+import android.util.Pair;
 import androidx.annotation.Nullable;
 import com.torrydo.floating.CloseBubbleBehavior;
 import com.torrydo.floating.FloatingBubbleListener;
@@ -177,6 +178,28 @@ public abstract class ExpandableBubbleService extends FloatingBubbleService {
 
     // endregion
 
+    // region private methods
+    
+    private void tryShowCloseBubbleAndBackground() {
+        if (closeBubble != null) {
+            closeBubble.show();
+        }
+        if (bottomBackground != null) {
+            bottomBackground.show();
+        }
+    }
+
+    private void tryRemoveCloseBubbleAndBackground() {
+        if (closeBubble != null) {
+            closeBubble.remove();
+        }
+        if (bottomBackground != null) {
+            bottomBackground.remove();
+        }
+    }
+
+    // endregion
+
     // region abstract methods
 
     @Nullable
@@ -195,6 +218,10 @@ public abstract class ExpandableBubbleService extends FloatingBubbleService {
         private final boolean isCloseBubbleEnabled;
         private final float triggerClickableAreaPx;
 
+        private boolean isCloseBubbleVisible = false;
+        private float onDownLocationX = 0f;
+        private float onDownLocationY = 0f;
+
         public CustomBubbleListener(FloatingBubble targetBubble, boolean isAnimateToEdgeEnabled, 
                                   CloseBubbleBehavior closeBehavior, boolean isCloseBubbleEnabled, 
                                   float triggerClickableAreaPx) {
@@ -207,37 +234,66 @@ public abstract class ExpandableBubbleService extends FloatingBubbleService {
 
         @Override
         public void onFingerDown(float x, float y) {
-            if (isCloseBubbleEnabled && closeBubble != null) {
-                closeBubble.show();
-                if (bottomBackground != null) {
-                    bottomBackground.show();
-                }
-            }
+            targetBubble.safeCancelAnimation();
+            onDownLocationX = x;
+            onDownLocationY = y;
         }
 
         @Override
         public void onFingerMove(float x, float y) {
-            if (isCloseBubbleEnabled && closeBubble != null && closeBubble.ableToInteract) {
-                closeBubble.tryAttractBubble(targetBubble, x, y);
-                closeBubble.followBubble((int) x, (int) y, targetBubble);
+            switch (closeBehavior) {
+                case DYNAMIC_CLOSE_BUBBLE:
+                    targetBubble.updateLocationUI(x, y);
+                    Pair<Float, Float> bubbleLocation = targetBubble.rawLocationOnScreen();
+                    if (closeBubble != null) {
+                        closeBubble.followBubble(Math.round(bubbleLocation.first), Math.round(bubbleLocation.second), targetBubble);
+                    }
+                    break;
+
+                case FIXED_CLOSE_BUBBLE:
+                    boolean isAttracted = false;
+                    if (closeBubble != null) {
+                        isAttracted = closeBubble.tryAttractBubble(targetBubble, x, y);
+                    }
+                    if (!isAttracted) {
+                        targetBubble.updateLocationUI(x, y);
+                    }
+                    break;
+            }
+
+            if (isCloseBubbleEnabled && !isCloseBubbleVisible) {
+                // Check if close-bubble should be shown
+                if (Math.abs(onDownLocationX - x) > triggerClickableAreaPx || 
+                    Math.abs(onDownLocationY - y) > triggerClickableAreaPx) {
+                    tryShowCloseBubbleAndBackground();
+                    isCloseBubbleVisible = true;
+                }
             }
         }
 
         @Override
         public void onFingerUp(float x, float y) {
-            if (isCloseBubbleEnabled && closeBubble != null) {
-                if (closeBubble.isBubbleInsideClosableArea(targetBubble)) {
-                    if (serviceInteractor != null) {
-                        serviceInteractor.requestStop();
-                    } else {
-                        stopSelf();
-                    }
-                    return;
+            isCloseBubbleVisible = false;
+            tryRemoveCloseBubbleAndBackground();
+
+            boolean shouldDestroy = false;
+            switch (closeBehavior) {
+                case FIXED_CLOSE_BUBBLE:
+                    shouldDestroy = closeBubble != null && closeBubble.isFingerInsideClosableArea(x, y);
+                    break;
+
+                case DYNAMIC_CLOSE_BUBBLE:
+                    shouldDestroy = closeBubble != null && closeBubble.isBubbleInsideClosableArea(targetBubble);
+                    break;
+            }
+
+            if (shouldDestroy) {
+                if (serviceInteractor != null) {
+                    serviceInteractor.requestStop();
+                } else {
+                    stopSelf();
                 }
-                closeBubble.remove();
-                if (bottomBackground != null) {
-                    bottomBackground.remove();
-                }
+                return;
             }
 
             if (isAnimateToEdgeEnabled) {
