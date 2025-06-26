@@ -8,15 +8,15 @@ import androidx.core.graphics.drawable.DrawableCompat;
 import com.torrydo.screenez.ScreenEasy;
 import java.lang.ref.WeakReference;
 
-final class Utils {
+public class Utils {
     
     private Utils() {
         // Utility class
     }
 
-    static final ScreenEasy sez = new ScreenEasy();
+    public static final ScreenEasy sez = new ScreenEasy();
 
-    static Bitmap toBitmap(int drawableRes, Context context) {
+    public  static Bitmap toBitmap(int drawableRes, Context context) {
         WeakReference<Context> weakContext = new WeakReference<>(context);
         Context ctx = weakContext.get();
         if (ctx != null) {
@@ -27,11 +27,11 @@ final class Utils {
         return null;
     }
 
-    static int toDp(int px) {
+    public static int toDp(int px) {
         return (int) (px / Resources.getSystem().getDisplayMetrics().density);
     }
 
-    static int toPx(int dp) {
+    public  static int toPx(float dp) {
         return (int) (dp * Resources.getSystem().getDisplayMetrics().density);
     }
 }

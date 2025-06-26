@@ -11,9 +11,9 @@ import com.torrydo.floating.AndroidVersions;
 import com.torrydo.floating.Utils;
 import com.torrydo.floating.ViewUtils;
 
-class FloatingBottomBackground extends Bubble {
+public class FloatingBottomBackground extends Bubble {
 
-    boolean isShowing = false;
+    public boolean isShowing = false;
 
     public FloatingBottomBackground(Context context) {
         super(context, new LinearLayout(context));

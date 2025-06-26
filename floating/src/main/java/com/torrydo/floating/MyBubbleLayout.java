@@ -6,7 +6,7 @@ import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.widget.LinearLayout;
 
-class MyBubbleLayout extends LinearLayout {
+public class MyBubbleLayout extends LinearLayout {
 
     public interface IgnoreChildEventCallback {
         boolean shouldIgnore(MotionEvent event);
@@ -14,10 +14,6 @@ class MyBubbleLayout extends LinearLayout {
 
     public interface TouchEventCallback {
         void onTouchEvent(MotionEvent event);
-    }
-
-    public interface DispatchKeyEventCallback {
-        Boolean onDispatchKeyEvent(KeyEvent event);
     }
 
     private IgnoreChildEventCallback ignoreChildEvent = event -> false;

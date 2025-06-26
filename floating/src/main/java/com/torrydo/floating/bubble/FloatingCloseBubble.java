@@ -12,7 +12,7 @@ import com.torrydo.floating.Utils;
 import com.torrydo.floating.ViewUtils;
 import com.torrydo.floating.XMath;
 
-class FloatingCloseBubble extends Bubble {
+public class FloatingCloseBubble extends Bubble {
 
     private final int distanceToClosePx;
     private final int bottomPaddingPx;

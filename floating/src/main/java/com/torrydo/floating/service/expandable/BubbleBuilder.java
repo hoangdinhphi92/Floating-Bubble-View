@@ -11,15 +11,15 @@ import android.view.WindowManager;
 import androidx.annotation.StyleRes;
 import com.torrydo.floating.AndroidVersions;
 import com.torrydo.floating.CloseBubbleBehavior;
+import com.torrydo.floating.DispatchKeyEventCallback;
 import com.torrydo.floating.FloatingBubbleListener;
+import com.torrydo.floating.MyBubbleLayout;
 import com.torrydo.floating.Utils;
 import com.torrydo.floating.bubble.FloatingBubble;
 
 public class BubbleBuilder {
 
-    public interface DispatchKeyEventCallback {
-        Boolean onDispatchKeyEvent(KeyEvent event);
-    }
+
 
     private final Context context;
 
@@ -48,7 +48,7 @@ public class BubbleBuilder {
     boolean forceDragging = true;
     boolean isBubbleDraggable = true;
 
-    DispatchKeyEventCallback onDispatchKeyEvent = null;
+    public DispatchKeyEventCallback onDispatchKeyEvent = null;
 
     public BubbleBuilder(Context context) {
         this.context = context;
@@ -174,7 +174,16 @@ public class BubbleBuilder {
     /**
      * start location of the bubble
      */
-    public BubbleBuilder startLocation(int x, int y) {
+    public BubbleBuilder startLocation(float x, float y) {
+        startPoint.x = Utils.toPx(x);
+        startPoint.y = Utils.toPx(y);
+        return this;
+    }
+
+    /**
+     * start location of the bubble
+     */
+    public BubbleBuilder startLocationPx(int x, int y) {
         startPoint.x = x;
         startPoint.y = y;
         return this;

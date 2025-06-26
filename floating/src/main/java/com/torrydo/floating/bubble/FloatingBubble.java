@@ -12,16 +12,13 @@ import android.view.View;
 import androidx.dynamicanimation.animation.SpringAnimation;
 import androidx.dynamicanimation.animation.SpringForce;
 import com.torrydo.floating.AnimHelper;
+import com.torrydo.floating.DispatchKeyEventCallback;
 import com.torrydo.floating.FloatingBubbleListener;
 import com.torrydo.floating.MyBubbleLayout;
 import com.torrydo.floating.Utils;
 import com.torrydo.floating.ViewUtils;
 
 public class FloatingBubble extends Bubble {
-
-    public interface DispatchKeyEventCallback {
-        Boolean onDispatchKeyEvent(KeyEvent event);
-    }
 
     private final Context context;
     private final boolean forceDragging;
@@ -45,7 +42,7 @@ public class FloatingBubble extends Bubble {
     }
 
     public FloatingBubble(Context context, boolean forceDragging, boolean containCompose, 
-                          FloatingBubbleListener listener, DispatchKeyEventCallback onDispatchKeyEvent, 
+                          FloatingBubbleListener listener, DispatchKeyEventCallback onDispatchKeyEvent,
                           float triggerClickableAreaPx) {
         super(context, createRootView(context, onDispatchKeyEvent), containCompose);
         

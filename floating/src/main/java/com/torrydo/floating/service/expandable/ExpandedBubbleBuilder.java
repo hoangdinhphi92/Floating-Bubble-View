@@ -9,12 +9,9 @@ import android.view.View;
 import android.view.WindowManager;
 import androidx.annotation.StyleRes;
 import com.torrydo.floating.AndroidVersions;
+import com.torrydo.floating.DispatchKeyEventCallback;
 
 public class ExpandedBubbleBuilder {
-
-    public interface DispatchKeyEventCallback {
-        Boolean onDispatchKeyEvent(KeyEvent event);
-    }
 
     private final Context context;
 

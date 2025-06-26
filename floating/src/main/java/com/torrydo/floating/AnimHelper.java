@@ -4,7 +4,7 @@ import androidx.dynamicanimation.animation.FloatValueHolder;
 import androidx.dynamicanimation.animation.SpringAnimation;
 import androidx.dynamicanimation.animation.SpringForce;
 
-final class AnimHelper {
+public final class AnimHelper {
     
     private AnimHelper() {
         // Utility class

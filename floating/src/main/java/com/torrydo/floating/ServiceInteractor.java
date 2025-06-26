@@ -1,5 +1,5 @@
 package com.torrydo.floating;
 
-interface ServiceInteractor {
+public interface ServiceInteractor {
     void requestStop();
 }

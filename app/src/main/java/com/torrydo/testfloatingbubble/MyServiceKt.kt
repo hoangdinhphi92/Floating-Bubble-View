@@ -3,13 +3,13 @@ package com.torrydo.testfloatingbubble
 import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
-import com.torrydo.floatingbubbleview.CloseBubbleBehavior
-import com.torrydo.floatingbubbleview.FloatingBubbleListener
-import com.torrydo.floatingbubbleview.helper.NotificationHelper
-import com.torrydo.floatingbubbleview.helper.ViewHelper
-import com.torrydo.floatingbubbleview.service.expandable.BubbleBuilder
-import com.torrydo.floatingbubbleview.service.expandable.ExpandableBubbleService
-import com.torrydo.floatingbubbleview.service.expandable.ExpandedBubbleBuilder
+import com.torrydo.floating.CloseBubbleBehavior
+import com.torrydo.floating.FloatingBubbleListener
+import com.torrydo.floating.helper.NotificationHelper
+import com.torrydo.floating.helper.ViewHelper
+import com.torrydo.floating.service.expandable.BubbleBuilder
+import com.torrydo.floating.service.expandable.ExpandableBubbleService
+import com.torrydo.floating.service.expandable.ExpandedBubbleBuilder
 
 
 class MyServiceKt : ExpandableBubbleService() {
@@ -50,7 +50,7 @@ class MyServiceKt : ExpandableBubbleService() {
             .bubbleStyle(null)
 
             // set start location for the bubble, (x=0, y=0) is the top-left
-            .startLocation(100, 100)    // in dp
+            .startLocation(100f, 100f)    // in dp
             .startLocationPx(100, 100)  // in px
 
             // enable auto animate bubble to the left/right side when release, true by default
@@ -98,11 +98,11 @@ class MyServiceKt : ExpandableBubbleService() {
         }
 
         return ExpandedBubbleBuilder(this)
-//            .expandedView(expandedView)
-            .expandedCompose {
-                TestComposeView(popBack = {minimize()})
-            }
-            .onDispatchKeyEvent {
+            .expandedView(expandedView)
+//            .expandedCompose {
+//                TestComposeView(popBack = {minimize()})
+//            }
+            .setDispatchKeyEvent {
                 if(it.keyCode == KeyEvent.KEYCODE_BACK){
                     minimize()
                 }
